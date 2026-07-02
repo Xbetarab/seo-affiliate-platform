@@ -78,21 +78,28 @@ function Reveal({
   );
 }
 
-/* ---------------------------------- الشعار ---------------------------------- */
-/* الشعار الرسمي = Wordmark مائل: "1X" أبيض + "BET" أزرق سماوي.
-   هذا رسم SVG مطابق للهوية — وللنشر النهائي استخدم ملف SVG الرسمي
-   من لوحة شريك 1xBet (شرط في أغلب اتفاقيات الأفلييت). */
-
-function BrandLogo({ className = 'h-9' }: { className?: string }) {
+/* Wordmark rebuilt as pure HTML/CSS — immune to RTL/SVG text issues.
+   For production, prefer the official asset from the 1xBet partner dashboard. */
+function BrandLogo({ className = '' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 190 48" className={`${className} w-auto`} role="img" aria-label="1xBet">
-      <g fontFamily="Changa, sans-serif" fontWeight="800" fontSize="42" fontStyle="italic">
-        <text x="4" y="38" fill="var(--ink)" letterSpacing="-1">1X</text>
-        <text x="62" y="38" fill="var(--sky)" letterSpacing="-0.5">BET</text>
-      </g>
-      {/* شرطة الحركة أسفل الاسم — لمسة السرعة في الهوية */}
-      <rect x="8" y="43" width="34" height="3.5" rx="1.75" fill="var(--lime)" transform="skewX(-18)" />
-    </svg>
+    <span
+      dir="ltr"
+      aria-label="1xBet"
+      role="img"
+      className={`relative inline-flex select-none items-baseline leading-none ${className}`}
+    >
+      <span className="font-[var(--font-display)] text-3xl font-extrabold italic tracking-[-0.02em] text-[var(--ink)] md:text-4xl">
+        1X
+      </span>
+      <span className="font-[var(--font-display)] text-3xl font-extrabold italic tracking-[-0.02em] text-[var(--sky)] md:text-4xl">
+        BET
+      </span>
+      {/* Green speed dash under "1X", skewed to match the italic angle */}
+      <span
+        aria-hidden
+        className="absolute -bottom-1.5 right-auto left-[2px] h-[3px] w-9 -skew-x-[18deg] rounded-full bg-[var(--lime)]"
+      />
+    </span>
   );
 }
 
@@ -639,7 +646,7 @@ export default function Page() {
       {/* =============================== الفوتر =============================== */}
       <footer className="border-t border-[var(--line)] bg-[var(--bg-deep)] px-6 py-10">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
-          <BrandLogo className="h-7 opacity-70" />
+          <BrandLogo className="scale-[0.8] opacity-70" />
           <p className="max-w-3xl text-sm leading-[1.6] text-[oklch(80%_0.028_248/0.6)]">
             ⚠️ إخلاء مسؤولية: هذا موقع معلوماتي مستقل لأغراض المراجعة، ولا يمثل العلامة التجارية 1xBet رسمياً.
             المراهنات مخصصة لمن هم بعمر 18 عاماً فأكثر. المراهنة تنطوي على مخاطر مالية — لا تراهن بأموال لا تتحمل
